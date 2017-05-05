@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     public GameObject BulletPrefab;
+    public GameObject BulletSpawnPoint;
     private Rigidbody2D _rb;
 
     private float _moveSpeed = 30f;
@@ -25,8 +26,8 @@ public class PlayerController : MonoBehaviour
     {
         if(_shootTimer <= 0 && Input.GetKey(KeyCode.Space))
         {
-            GameObject bullet = Instantiate(BulletPrefab, transform, false);
-            bullet.GetComponent<BulletBasicController>().SetBulletParams(Vector2.up, 50);
+            GameObject bullet = Instantiate(BulletPrefab, BulletSpawnPoint.transform, false);
+            bullet.GetComponent<BulletBasicController>().SetBulletParams(Vector2.up, 10);
             _shootTimer = _shootCooldown;
         }
 

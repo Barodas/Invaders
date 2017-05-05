@@ -19,12 +19,19 @@ public class BulletBasicController : MonoBehaviour
         _rb = gameObject.AddComponent<Rigidbody2D>();
         _rb.freezeRotation = true;
         _rb.gravityScale = 0;
-        _rb.drag = 1;
-	}
+        //_rb.drag = 1;
+
+        _rb.AddForce(_moveDirection * _moveSpeed, ForceMode2D.Impulse);
+    }
 	
 	void FixedUpdate ()
     {
-        _rb.AddForce(_moveDirection * _moveSpeed);
+        //_rb.AddForce(_moveDirection * _moveSpeed);
+    }
+
+    void OnBecameInvisible()
+    {
+        Destroy(gameObject);
     }
 
     public void SetBulletParams(Vector2 directionVector, float speed)

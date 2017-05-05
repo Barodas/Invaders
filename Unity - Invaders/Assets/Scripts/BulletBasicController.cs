@@ -5,6 +5,7 @@ using UnityEngine;
 public class BulletBasicController : MonoBehaviour
 {
     private Rigidbody2D _rb;
+    private CircleCollider2D _col;
 
     private int _damage = 5;
     private Vector2 _moveDirection;
@@ -16,17 +17,10 @@ public class BulletBasicController : MonoBehaviour
 
 	void Start ()
     {
-        _rb = gameObject.AddComponent<Rigidbody2D>();
-        _rb.freezeRotation = true;
-        _rb.gravityScale = 0;
-        //_rb.drag = 1;
+        _col = GetComponent<CircleCollider2D>();
+        _rb = GetComponent<Rigidbody2D>();
 
         _rb.AddForce(_moveDirection * _moveSpeed, ForceMode2D.Impulse);
-    }
-	
-	void FixedUpdate ()
-    {
-        //_rb.AddForce(_moveDirection * _moveSpeed);
     }
 
     void OnBecameInvisible()
@@ -34,9 +28,10 @@ public class BulletBasicController : MonoBehaviour
         Destroy(gameObject);
     }
 
-    public void SetBulletParams(Vector2 directionVector, float speed)
+    public void SetBulletParams(Vector2 directionVector, float speed, string tag)
     {
         _moveDirection = directionVector;
         _moveSpeed = speed;
+        gameObject.tag = tag;
     }
 }

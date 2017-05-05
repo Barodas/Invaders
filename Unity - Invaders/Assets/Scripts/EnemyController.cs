@@ -2,30 +2,33 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour
+public class EnemyController : MonoBehaviour
 {
     public GameObject BulletPrefab;
     public GameObject BulletSpawnPoint;
     private Rigidbody2D _rb;
 
-    private int _health = 15;
-    private float _moveSpeed = 30f;
+    private int _health = 1;
     private float _shootTimer;
-    private float _shootCooldown = 0.2f;
+    private float _shootCooldown = 5f;
+    private float _shootFrequency = 0.05f;
 
-    public float MoveSpeed { get { return _moveSpeed; } }
-
-	void Start ()
+    void Start ()
     {
         _rb = GetComponent<Rigidbody2D>();
 	}
 	
-    void Update()
+	void Update ()
     {
-        if(_shootTimer <= 0 && Input.GetKey(KeyCode.Space))
+        if(_health < 0)
+        {
+            Destroy(gameObject);
+        }
+
+        if (_shootTimer <= 0 && Random.Range(0f,1f) < _shootFrequency)
         {
             GameObject bullet = Instantiate(BulletPrefab, BulletSpawnPoint.transform, false);
-            bullet.GetComponent<BulletBasicController>().SetBulletParams(Vector2.up, 10, "BulletFriendly");
+            bullet.GetComponent<BulletBasicController>().SetBulletParams(Vector2.down, 10, "BulletEnemy");
             _shootTimer = _shootCooldown;
         }
 
@@ -35,18 +38,9 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-	void FixedUpdate ()
-    {
-        float moveHorizontal = Input.GetAxis("Horizontal");
-        float moveVertical = Input.GetAxis("Vertical");
-        Vector2 movement = new Vector2(moveHorizontal, moveVertical);
-
-        _rb.AddForce(movement * _moveSpeed);
-	}
-
     void OnTriggerEnter2D(Collider2D col)
     {
-        if (col.gameObject.tag == "BulletEnemy")
+        if(col.gameObject.tag == "BulletFriendly")
         {
             _health -= col.gameObject.GetComponent<BulletBasicController>().Damage;
             Destroy(col.gameObject);

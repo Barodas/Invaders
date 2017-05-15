@@ -6,7 +6,6 @@ public class EnemyController : MonoBehaviour
 {
     public GameObject BulletPrefab;
     public GameObject BulletSpawnPoint;
-    private Rigidbody2D _rb;
 
     private int _health = 1;
     private float _shootTimer;
@@ -15,7 +14,7 @@ public class EnemyController : MonoBehaviour
 
     void Start ()
     {
-        _rb = GetComponent<Rigidbody2D>();
+
 	}
 	
 	void Update ()

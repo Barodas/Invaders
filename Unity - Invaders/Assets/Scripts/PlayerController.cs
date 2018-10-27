@@ -46,7 +46,7 @@ public class PlayerController : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D col)
     {
-        if (col.gameObject.tag == "BulletEnemy")
+        if (col.gameObject.CompareTag("BulletEnemy"))
         {
             _health -= col.gameObject.GetComponent<BulletBasicController>().Damage;
             Destroy(col.gameObject);
